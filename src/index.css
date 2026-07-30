@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------------------
+   Self-hosted Helvetica Neue Roman (optional).
+   Drop the files into /public/fonts/ — see public/fonts/README.md.
+   Falls back to a locally installed Helvetica Neue, then Inter.
+   ------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Helvetica Neue Roman';
+  src:
+    url('/fonts/HelveticaNeue-Roman.woff2') format('woff2'),
+    url('/fonts/HelveticaNeue-Roman.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter is the global default on every element. */
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky nav offset so anchors don't land under the navbar. */
+  scroll-padding-top: 96px;
+}
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Locks page scroll while the mobile menu is open. */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Hero wrapper opt-in font. */
+.font-helvetica-neue {
+  font-family: 'Helvetica Neue Roman', 'Helvetica Neue', 'Inter', sans-serif;
+}
+
+/* Display face for the hero name and section headings. */
+.font-instrument-serif {
+  font-family: 'Instrument Serif', serif !important;
+}
+
+@layer components {
+  /* -----------------------------------------------------------------------
+     Liquid glass — frosted panel with a gradient hairline border produced
+     by the mask-composite trick.
+
+     Declared inside @layer components so Tailwind's utility layer keeps
+     precedence: without this, `position: relative` below would override an
+     `absolute` / `fixed` utility applied to the same element.
+     ----------------------------------------------------------------------- */
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.01);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0.15) 80%,
+      rgba(255, 255, 255, 0.45) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Light-background variant for the Apple-style sections below the hero.
+     Same gradient-border language, tuned for legibility on #FFF / #F5F5F7. */
+  .liquid-glass-light {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: none;
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.9),
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .liquid-glass-light::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.04) 20%,
+      rgba(0, 0, 0, 0) 40%,
+      rgba(0, 0, 0, 0) 60%,
+      rgba(0, 0, 0, 0.04) 80%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Animations
+   ------------------------------------------------------------------------- */
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes menu-close-in {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-menu-item {
+  opacity: 0;
+  animation: menu-item-in 0.7s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.animate-menu-close {
+  opacity: 0;
+  animation: menu-close-in 0.6s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.animate-hero-rise {
+  opacity: 0;
+  animation: hero-rise 0.9s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+/* Scroll-triggered reveal used by the light sections. */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-menu-item,
+  .animate-menu-close,
+  .animate-hero-rise {
+    animation-duration: 0.01ms;
+    opacity: 1;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
