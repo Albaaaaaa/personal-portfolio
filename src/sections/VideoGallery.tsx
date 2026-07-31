@@ -3,6 +3,7 @@ import Section, { Reveal } from '../components/Section'
 import { EXPERIENCE } from '../data/portfolio'
 import { YoutubeIcon, XIcon } from '../components/icons'
 import { LiquidButton } from '../components/ui/liquid-glass-button'
+import { ParallaxCards } from '../components/ui/parallax-cards'
 
 type Video = {
   label: string
@@ -85,7 +86,7 @@ export default function VideoGallery() {
         title="Video dokumentasi selama bekerja."
         subtitle="Konten video yang dibuat selama masa kerja di Dinas Perpustakaan dan Kearsipan Kota Samarinda."
       >
-        <div className="grid gap-6 sm:grid-cols-2">
+        <ParallaxCards className="grid gap-6 sm:grid-cols-2">
           {videos.map((video, index) => {
             const videoId = getYouTubeId(video.url)
             const thumbnail = videoId
@@ -132,7 +133,7 @@ export default function VideoGallery() {
               </Reveal>
             )
           })}
-        </div>
+        </ParallaxCards>
       </Section>
 
       {/* Modal */}
