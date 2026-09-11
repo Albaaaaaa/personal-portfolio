@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import Section, { Reveal } from '../components/Section'
 import { EXPERIENCE } from '../data/portfolio'
-import { YoutubeIcon, XIcon } from '../components/icons'
-import { LiquidButton } from '../components/ui/liquid-glass-button'
+import { YoutubeIcon } from '../components/icons'
+import { LiquidMetalButton } from '../components/ui/liquid-metal-button'
 import { ParallaxCards } from '../components/ui/parallax-cards'
 
 type Video = {
@@ -44,13 +44,9 @@ function VideoModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
-        <LiquidButton
-          size="icon"
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 h-10 w-10 rounded-full"
-        >
-          <XIcon className="w-5 h-5 text-white" />
-        </LiquidButton>
+        <div className="absolute top-4 right-4 z-10">
+          <LiquidMetalButton viewMode="icon" onClick={onClose} />
+        </div>
 
         {/* Video player */}
         <div className="relative aspect-video bg-black">

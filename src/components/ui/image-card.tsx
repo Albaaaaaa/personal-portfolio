@@ -7,6 +7,8 @@ interface ImageCardProps extends React.HTMLAttributes<HTMLDivElement> {
   logo?: React.ReactNode
   title: string
   subtitle?: string
+  indexLabel?: string
+  statusLabel?: string
   children?: React.ReactNode
   /** Content revealed on hover at bottom */
   footer?: React.ReactNode
@@ -27,6 +29,8 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
       logo,
       title,
       subtitle,
+      indexLabel,
+      statusLabel,
       children,
       footer,
       objectFit = 'cover',
@@ -41,7 +45,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
         src={imageUrl}
         alt={imageAlt}
         className={cn(
-          "absolute inset-0 h-full w-full transition-transform duration-500 ease-in-out group-hover:scale-110",
+          "absolute inset-0 h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]",
           objectFit === 'cover' ? 'object-cover' : 'object-contain p-4'
         )}
       />
@@ -52,7 +56,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
         ref={ref}
         className={cn(
           "group relative w-full overflow-hidden bg-card",
-          !plain && "rounded-xl border border-border shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2",
+          !plain && "rounded-xl border border-border shadow-lg transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl",
           "min-h-[320px]",
           className
         )}
@@ -71,13 +75,32 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
           image
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" />
+        <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-t from-black/85 via-black/45 to-black/20" />
 
-        <div className="relative flex h-full min-h-[320px] flex-col justify-between p-5 text-white">
-          <div className="flex items-start">
+        <div className="pointer-events-none relative z-20 flex h-full min-h-[320px] flex-col justify-between p-5 text-white">
+          <div className="flex items-start justify-between gap-3">
             {logo && (
               <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/50 bg-black/20 backdrop-blur-sm">
                 {logo}
+              </div>
+            )}
+
+            {(indexLabel || statusLabel) && (
+              <div className={cn(
+                "flex w-full items-center justify-between gap-3",
+                logo && "w-auto"
+              )}>
+                {indexLabel && (
+                  <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-white/70">
+                    {indexLabel}
+                  </span>
+                )}
+                {statusLabel && (
+                  <span className="flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-white/80 backdrop-blur-md">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    {statusLabel}
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -95,7 +118,7 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
           </div>
 
           {footer && (
-            <div className="absolute -bottom-20 left-0 w-full p-5 opacity-0 transition-all duration-500 ease-in-out group-hover:bottom-0 group-hover:opacity-100">
+            <div className="pointer-events-auto absolute -bottom-20 left-0 z-30 w-full p-5 opacity-0 transition-all duration-500 ease-in-out group-hover:bottom-0 group-hover:opacity-100">
               {footer}
             </div>
           )}

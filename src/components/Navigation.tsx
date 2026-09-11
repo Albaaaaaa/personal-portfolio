@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-import Logo from './Logo'
-import { DownloadIcon } from './icons'
-import { PROFILE, SECTIONS } from '../data/portfolio'
-import { LiquidButton } from './ui/liquid-glass-button'
+import { SECTIONS } from '../data/portfolio'
+import { LiquidMetalButton } from './ui/liquid-metal-button'
+import { LiquidMetalContainer } from './ui/liquid-metal-container'
+import { CvDownloadButton } from './ui/cv-download-button'
 
 type NavigationProps = {
   onOpenMenu: () => void
@@ -13,102 +12,47 @@ type NavigationProps = {
 
 export default function Navigation({
   onOpenMenu,
-  menuOpen,
   activeSection,
 }: NavigationProps) {
-  // Past the hero the page turns light, so the nav inverts to dark ink.
-  const [onLight, setOnLight] = useState(false)
-
-  useEffect(() => {
-    const update = () => setOnLight(window.scrollY > window.innerHeight - 100)
-    update()
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
-    return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
-    }
-  }, [])
-
-  const glass = onLight ? 'liquid-glass-light' : 'liquid-glass'
-  const idleText = onLight ? 'text-ink/60' : 'text-white/70'
-  const activeText = onLight ? 'text-ink' : 'text-white'
-  const hoverText = onLight ? 'hover:text-ink' : 'hover:text-white'
-  const lineTone = onLight ? 'bg-ink' : 'bg-white'
-
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
-      {/* Logo — top left. Wrapper owns positioning so .liquid-glass on a
-          child can't clash with it. */}
-      <div className="absolute left-5 top-5 sm:left-8 sm:top-6">
-        <a
-          href="#home"
-          className="pointer-events-auto block transition-opacity hover:opacity-70"
-        >
-          <Logo size={32} dark={onLight} />
-        </a>
-      </div>
-
-      {/* Center pill nav — desktop only */}
-      <div className="absolute left-1/2 top-5 hidden -translate-x-1/2 lg:block">
-        <nav
-          aria-label="Primary"
-          className={`${glass} pointer-events-auto flex items-center gap-0.5 rounded-full px-2 py-2`}
-        >
-          {SECTIONS.map((section) => {
+    <header className="fixed inset-x-0 top-0 z-50 px-6 pt-6 md:px-10">
+      <nav className="relative flex items-center justify-center">
+        {/* Center pill — desktop nav links */}
+        <LiquidMetalContainer className="hidden items-center justify-center gap-1 px-3 py-2 md:flex">
+          {SECTIONS.slice(0, 5).map((section) => {
             const active = activeSection === section.id
             return (
               <a
                 key={section.id}
                 href={`#${section.id}`}
                 aria-current={active ? 'page' : undefined}
-                className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
-                  active ? activeText : `${idleText} ${hoverText}`
+                className={`rounded-full px-5 py-2 text-sm transition-all duration-300 ${
+                  active
+                    ? 'bg-[#F5F5F7] text-[#1D1D1F] shadow-sm'
+                    : 'text-neutral-400 hover:text-white'
                 }`}
               >
                 {section.label}
               </a>
             )
           })}
-        </nav>
-      </div>
+        </LiquidMetalContainer>
 
-      {/* CTA — desktop only */}
-      <div className="absolute right-8 top-5 hidden lg:block">
-        <LiquidButton
-          asChild
-          size="lg"
-          className="pointer-events-auto rounded-full px-5 py-3"
-        >
-          <a href={PROFILE.cvUrl} download>
-            <span className="h-2 w-2 shrink-0 rounded-full bg-green-400" />
-            <span
-              className={`text-sm font-medium ${onLight ? 'text-ink' : 'text-white'}`}
-            >
-              Download CV
-            </span>
-            <DownloadIcon
-              className={`h-4 w-4 ${onLight ? 'text-ink/70' : 'text-white/70'}`}
+        {/* Right — "get started" / Download CV */}
+        <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-2">
+          <div className="hidden sm:flex">
+            <CvDownloadButton align="right" />
+          </div>
+
+          {/* Hamburger — below md */}
+          <div className="md:hidden">
+            <LiquidMetalButton
+              viewMode="icon"
+              onClick={onOpenMenu}
             />
-          </a>
-        </LiquidButton>
-      </div>
-
-      {/* Hamburger — below lg */}
-      <div className="absolute right-5 top-5 lg:hidden">
-        <LiquidButton
-          type="button"
-          size="icon"
-          onClick={onOpenMenu}
-          aria-label="Open menu"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          className="pointer-events-auto flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full"
-        >
-          <span className={`h-[1.5px] w-5 ${lineTone}`} />
-          <span className={`h-[1.5px] w-3.5 ${lineTone}`} />
-        </LiquidButton>
-      </div>
+          </div>
+        </div>
+      </nav>
     </header>
   )
 }

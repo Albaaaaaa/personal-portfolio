@@ -20,20 +20,24 @@ const STYLES = `
 .cinematic-footer-wrapper {
   font-family: 'Plus Jakarta Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
-  
-  /* Dynamic Variables using standard shadcn/tailwind v4 tokens */
-  --pill-bg-1: color-mix(in oklch, var(--foreground) 3%, transparent);
-  --pill-bg-2: color-mix(in oklch, var(--foreground) 1%, transparent);
-  --pill-shadow: color-mix(in oklch, var(--background) 50%, transparent);
-  --pill-highlight: color-mix(in oklch, var(--foreground) 10%, transparent);
-  --pill-inset-shadow: color-mix(in oklch, var(--background) 80%, transparent);
-  --pill-border: color-mix(in oklch, var(--foreground) 8%, transparent);
-  
-  --pill-bg-1-hover: color-mix(in oklch, var(--foreground) 8%, transparent);
-  --pill-bg-2-hover: color-mix(in oklch, var(--foreground) 2%, transparent);
-  --pill-border-hover: color-mix(in oklch, var(--foreground) 20%, transparent);
-  --pill-shadow-hover: color-mix(in oklch, var(--background) 70%, transparent);
-  --pill-highlight-hover: color-mix(in oklch, var(--foreground) 20%, transparent);
+  color: #1d1d1f;
+
+  /* Footer-scoped Apple light palette. */
+  --footer-ink: #1d1d1f;
+  --footer-muted: #6e6e73;
+  --footer-border: #d2d2d7;
+  --pill-bg-1: rgba(255, 255, 255, 0.92);
+  --pill-bg-2: rgba(245, 245, 247, 0.82);
+  --pill-shadow: rgba(0, 0, 0, 0.1);
+  --pill-highlight: rgba(255, 255, 255, 0.98);
+  --pill-inset-shadow: rgba(0, 0, 0, 0.03);
+  --pill-border: rgba(29, 29, 31, 0.12);
+
+  --pill-bg-1-hover: #ffffff;
+  --pill-bg-2-hover: #f5f5f7;
+  --pill-border-hover: rgba(29, 29, 31, 0.24);
+  --pill-shadow-hover: rgba(0, 0, 0, 0.14);
+  --pill-highlight-hover: #ffffff;
 }
 
 @keyframes footer-breathe {
@@ -47,8 +51,8 @@ const STYLES = `
 }
 
 @keyframes footer-heartbeat {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px color-mix(in oklch, var(--destructive) 50%, transparent)); }
-  15%, 45% { transform: scale(1.2); filter: drop-shadow(0 0 10px color-mix(in oklch, var(--destructive) 80%, transparent)); }
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 59, 48, 0.35)); }
+  15%, 45% { transform: scale(1.2); filter: drop-shadow(0 0 10px rgba(255, 59, 48, 0.65)); }
   30% { transform: scale(1); }
 }
 
@@ -64,12 +68,24 @@ const STYLES = `
   animation: footer-heartbeat 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-footer-breathe,
+  .animate-footer-scroll-marquee,
+  .animate-footer-heartbeat {
+    animation: none;
+  }
+
+  .footer-glass-pill {
+    transition: none;
+  }
+}
+
 /* Theme-adaptive Grid Background */
 .footer-bg-grid {
   background-size: 60px 60px;
-  background-image: 
-    linear-gradient(to right, color-mix(in oklch, var(--foreground) 3%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklch, var(--foreground) 3%, transparent) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, rgba(29, 29, 31, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 29, 31, 0.045) 1px, transparent 1px);
   mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
 }
@@ -77,10 +93,10 @@ const STYLES = `
 /* Theme-adaptive Aurora Glow */
 .footer-aurora {
   background: radial-gradient(
-    circle at 50% 50%, 
-    color-mix(in oklch, var(--primary) 15%, transparent) 0%, 
-    color-mix(in oklch, var(--secondary) 15%, transparent) 40%, 
-    transparent 70%
+    circle at 50% 50%,
+    rgba(0, 113, 227, 0.1) 0%,
+    rgba(245, 245, 247, 0.8) 42%,
+    transparent 72%
   );
 }
 
@@ -103,7 +119,7 @@ const STYLES = `
   box-shadow: 
       0 20px 40px -10px var(--pill-shadow-hover), 
       inset 0 1px 1px var(--pill-highlight-hover);
-  color: var(--foreground);
+  color: var(--footer-ink);
 }
 
 /* Giant Background Text Masking */
@@ -113,19 +129,19 @@ const STYLES = `
   font-weight: 900;
   letter-spacing: -0.05em;
   color: transparent;
-  -webkit-text-stroke: 1px color-mix(in oklch, var(--foreground) 5%, transparent);
-  background: linear-gradient(180deg, color-mix(in oklch, var(--foreground) 10%, transparent) 0%, transparent 60%);
+  -webkit-text-stroke: 1px rgba(29, 29, 31, 0.08);
+  background: linear-gradient(180deg, rgba(29, 29, 31, 0.1) 0%, transparent 60%);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
 /* Metallic Text Glow */
 .footer-text-glow {
-  background: linear-gradient(180deg, var(--foreground) 0%, color-mix(in oklch, var(--foreground) 40%, transparent) 100%);
+  background: linear-gradient(180deg, #1d1d1f 0%, #6e6e73 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0px 0px 20px color-mix(in oklch, var(--foreground) 15%, transparent));
+  filter: drop-shadow(0 8px 18px rgba(29, 29, 31, 0.1));
 }
 `;
 
@@ -145,6 +161,11 @@ const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>(
       if (typeof window === "undefined") return;
       const element = localRef.current;
       if (!element) return;
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (!finePointer || reduceMotion) return;
 
       const ctx = gsap.context(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -157,11 +178,9 @@ const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>(
           gsap.to(element, {
             x: x * 0.4,
             y: y * 0.4,
-            rotationX: -y * 0.15,
-            rotationY: x * 0.15,
-            scale: 1.05,
+            scale: 1.015,
             ease: "power2.out",
-            duration: 0.4,
+            duration: 0.25,
           });
         };
 
@@ -169,11 +188,9 @@ const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>(
           gsap.to(element, {
             x: 0,
             y: 0,
-            rotationX: 0,
-            rotationY: 0,
             scale: 1,
-            ease: "elastic.out(1, 0.3)",
-            duration: 1.2,
+            ease: "power3.out",
+            duration: 0.45,
           });
         };
 
@@ -211,11 +228,11 @@ MagneticButton.displayName = "MagneticButton";
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-12 px-6">
-    <span>Software Engineer</span> <span className="text-primary/60">✦</span>
-    <span>AI Engineer</span> <span className="text-secondary/60">✦</span>
-    <span>Informatics Engineering</span> <span className="text-primary/60">✦</span>
-    <span>Cum Laude</span> <span className="text-secondary/60">✦</span>
-    <span>GPA 3.95/4.00</span> <span className="text-primary/60">✦</span>
+    <span>Software Engineer</span> <span className="text-[#0071E3]/60">✦</span>
+    <span>AI Engineer</span> <span className="text-[#86868B]">✦</span>
+    <span>Informatics Engineering</span> <span className="text-[#0071E3]/60">✦</span>
+    <span>Cum Laude</span> <span className="text-[#86868B]">✦</span>
+    <span>GPA 3.95/4.00</span> <span className="text-[#0071E3]/60">✦</span>
   </div>
 );
 
@@ -229,22 +246,32 @@ export function CinematicFooter() {
     if (typeof window === "undefined") return;
     if (!wrapperRef.current) return;
 
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduceMotion) {
+      gsap.set(
+        [giantTextRef.current, headingRef.current, linksRef.current],
+        { clearProps: "all" }
+      );
+      return;
+    }
+
     // React strict mode compatible GSAP context cleanup
     const ctx = gsap.context(() => {
       // Background Parallax
       gsap.fromTo(
         giantTextRef.current,
-        { y: "10vh", scale: 0.8, opacity: 0 },
+        { y: "4vh", opacity: 0 },
         {
           y: "0vh",
-          scale: 1,
           opacity: 1,
           ease: "power1.out",
           scrollTrigger: {
             trigger: wrapperRef.current,
             start: "top 80%",
             end: "bottom bottom",
-            scrub: 1,
+            scrub: 0.6,
           },
         }
       );
@@ -252,17 +279,17 @@ export function CinematicFooter() {
       // Staggered Content Reveal
       gsap.fromTo(
         [headingRef.current, linksRef.current],
-        { y: 50, opacity: 0 },
+        { y: 20, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          stagger: 0.15,
+          stagger: 0.08,
           ease: "power3.out",
+          duration: 0.55,
           scrollTrigger: {
             trigger: wrapperRef.current,
-            start: "top 40%",
-            end: "bottom bottom",
-            scrub: 1,
+            start: "top 65%",
+            toggleActions: "play none none none",
           },
         }
       );
@@ -272,7 +299,13 @@ export function CinematicFooter() {
   },[]);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
   };
 
   return (
@@ -290,7 +323,7 @@ export function CinematicFooter() {
         style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
       >
         {/* The actual footer stays fixed to the viewport underneath everything */}
-        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-background text-foreground cinematic-footer-wrapper">
+          <footer className="cinematic-footer-wrapper fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-white text-[#1D1D1F]">
           
           {/* Ambient Light & Grid Background */}
           <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[80px] pointer-events-none z-0" />
@@ -305,8 +338,8 @@ export function CinematicFooter() {
           </div>
 
           {/* 1. Diagonal Sleek Marquee (Top of footer) */}
-          <div className="absolute top-12 left-0 w-full overflow-hidden border-y border-border/50 bg-background/60 backdrop-blur-md py-4 z-10 -rotate-2 scale-110 shadow-2xl">
-            <div className="flex w-max animate-footer-scroll-marquee text-xs md:text-sm font-bold tracking-[0.3em] text-muted-foreground uppercase">
+          <div className="absolute top-12 left-0 z-10 w-full -rotate-2 scale-110 overflow-hidden border-y border-[#D2D2D7] bg-white/80 py-4 shadow-[0_10px_35px_rgba(0,0,0,0.08)] backdrop-blur-md">
+            <div className="flex w-max animate-footer-scroll-marquee text-xs font-bold uppercase tracking-[0.3em] text-[#6E6E73] md:text-sm">
               <MarqueeItem />
               <MarqueeItem />
             </div>
@@ -325,15 +358,15 @@ export function CinematicFooter() {
             <div ref={linksRef} className="flex flex-col items-center gap-6 w-full">
               {/* Primary Buttons - GitHub & LinkedIn */}
               <div className="flex flex-wrap justify-center gap-4 w-full">
-                <MagneticButton as="a" href="https://github.com/Albaaaaaa" target="_blank" rel="noreferrer noopener" className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group">
-                  <svg className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" viewBox="0 0 16 16" fill="currentColor">
+                <MagneticButton as="a" href="https://github.com/Albaaaaaa" target="_blank" rel="noreferrer noopener" className="footer-glass-pill group flex items-center gap-3 rounded-full px-10 py-5 text-sm font-bold text-[#1D1D1F] md:text-base">
+                  <svg className="h-6 w-6 text-[#6E6E73] transition-colors group-hover:text-[#1D1D1F]" viewBox="0 0 16 16" fill="currentColor">
                     <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
                   </svg>
                   GitHub
                 </MagneticButton>
                 
-                <MagneticButton as="a" href="https://www.linkedin.com/in/muhammad-ulil-albab" target="_blank" rel="noreferrer noopener" className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group">
-                  <svg className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                <MagneticButton as="a" href="https://www.linkedin.com/in/muhammad-ulil-albab" target="_blank" rel="noreferrer noopener" className="footer-glass-pill group flex items-center gap-3 rounded-full px-10 py-5 text-sm font-bold text-[#1D1D1F] md:text-base">
+                  <svg className="h-6 w-6 text-[#6E6E73] transition-colors group-hover:text-[#1D1D1F]" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                   </svg>
                   LinkedIn
@@ -342,13 +375,13 @@ export function CinematicFooter() {
 
               {/* Secondary Text Links - Navigation */}
               <div className="flex flex-wrap justify-center gap-3 md:gap-6 w-full mt-2">
-                <MagneticButton as="a" href="#home" className="footer-glass-pill px-6 py-3 rounded-full text-muted-foreground font-medium text-xs md:text-sm hover:text-foreground">
+                <MagneticButton as="a" href="#home" className="footer-glass-pill rounded-full px-6 py-3 text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] md:text-sm">
                   Home
                 </MagneticButton>
-                <MagneticButton as="a" href="#portfolio" className="footer-glass-pill px-6 py-3 rounded-full text-muted-foreground font-medium text-xs md:text-sm hover:text-foreground">
+                <MagneticButton as="a" href="#portfolio" className="footer-glass-pill rounded-full px-6 py-3 text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] md:text-sm">
                   Portfolio
                 </MagneticButton>
-                <MagneticButton as="a" href="#contact" className="footer-glass-pill px-6 py-3 rounded-full text-muted-foreground font-medium text-xs md:text-sm hover:text-foreground">
+                <MagneticButton as="a" href="#contact" className="footer-glass-pill rounded-full px-6 py-3 text-xs font-medium text-[#6E6E73] hover:text-[#1D1D1F] md:text-sm">
                   Contact
                 </MagneticButton>
               </div>
@@ -359,23 +392,23 @@ export function CinematicFooter() {
           <div className="relative z-20 w-full pb-8 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
             
             {/* Copyright */}
-            <div className="text-muted-foreground text-[10px] md:text-xs font-semibold tracking-widest uppercase order-2 md:order-1">
+            <div className="order-2 text-[10px] font-semibold uppercase tracking-widest text-[#6E6E73] md:order-1 md:text-xs">
               © {new Date().getFullYear()} Muhammad Ulil Albab. All rights reserved.
             </div>
 
             {/* "Made with Love" Badge */}
-            <div className="footer-glass-pill px-6 py-3 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-border/50">
-              <span className="text-muted-foreground text-[10px] md:text-xs font-bold uppercase tracking-widest">Crafted with</span>
-              <span className="animate-footer-heartbeat text-sm md:text-base text-destructive">❤</span>
-              <span className="text-muted-foreground text-[10px] md:text-xs font-bold uppercase tracking-widest">by</span>
-              <span className="text-foreground font-black text-xs md:text-sm tracking-normal ml-1">Muhammad Ulil Albab</span>
+            <div className="footer-glass-pill order-1 flex cursor-default items-center gap-2 rounded-full border-[#D2D2D7] px-6 py-3 md:order-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#6E6E73] md:text-xs">Crafted with</span>
+              <span className="animate-footer-heartbeat text-sm text-[#FF3B30] md:text-base">❤</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#6E6E73] md:text-xs">by</span>
+              <span className="ml-1 text-xs font-black tracking-normal text-[#1D1D1F] md:text-sm">Muhammad Ulil Albab</span>
             </div>
 
             {/* Back to top */}
             <MagneticButton
               as="button"
               onClick={scrollToTop}
-              className="w-12 h-12 rounded-full footer-glass-pill flex items-center justify-center text-muted-foreground hover:text-foreground group order-3"
+              className="footer-glass-pill group order-3 flex h-12 w-12 items-center justify-center rounded-full text-[#6E6E73] hover:text-[#1D1D1F]"
             >
               <svg className="w-5 h-5 transform group-hover:-translate-y-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>

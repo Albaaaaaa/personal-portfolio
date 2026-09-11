@@ -10,3 +10,23 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+
+# Folder konfigurasi asisten AI — tidak dipakai oleh website
+.agents/
+.augment/
+.claude/
+.codebuddy/
+.codewhale/
+.continue/
+.cursor/
+.factory/
+.gemini/
+.github/prompts/
+.kilocode/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.warp/
+.windsurf/

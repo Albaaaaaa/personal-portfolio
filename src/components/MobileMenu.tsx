@@ -1,6 +1,6 @@
-import { DownloadIcon } from './icons'
-import { PROFILE, SECTIONS } from '../data/portfolio'
-import { LiquidButton } from './ui/liquid-glass-button'
+import { SECTIONS } from '../data/portfolio'
+import { LiquidMetalButton } from './ui/liquid-metal-button'
+import { CvDownloadButton } from './ui/cv-download-button'
 
 type MobileMenuProps = {
   open: boolean
@@ -24,18 +24,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
       className="fixed inset-0 z-[55] flex flex-col bg-[#0a0a0a] lg:hidden"
     >
       <div className="flex items-center justify-end px-5 pt-5">
-        <LiquidButton
-          type="button"
-          size="icon"
-          onClick={onClose}
-          aria-label="Close menu"
-          className="animate-menu-close h-11 w-11 rounded-full"
-        >
-          <span className="relative block h-4 w-4">
-            <span className="absolute left-0 top-1/2 h-[1.5px] w-4 -translate-y-1/2 rotate-45 bg-white" />
-            <span className="absolute left-0 top-1/2 h-[1.5px] w-4 -translate-y-1/2 -rotate-45 bg-white" />
-          </span>
-        </LiquidButton>
+        <LiquidMetalButton viewMode="icon" onClick={onClose} />
       </div>
 
       <nav
@@ -56,22 +45,12 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
       </nav>
 
       <div
-        className="animate-menu-item flex justify-center px-6 pb-12"
+        className="animate-menu-item flex flex-wrap justify-center gap-3 px-6 pb-12"
         style={{
           animationDelay: `${BASE_DELAY + SECTIONS.length * STAGGER}ms`,
         }}
       >
-        <LiquidButton
-          asChild
-          size="lg"
-          className="rounded-full px-6 py-3.5"
-        >
-          <a href={PROFILE.cvUrl} download onClick={onClose}>
-            <span className="h-2 w-2 shrink-0 rounded-full bg-green-400" />
-            <span className="text-sm font-medium text-white">Download CV</span>
-            <DownloadIcon className="h-4 w-4 text-white/70" />
-          </a>
-        </LiquidButton>
+        <CvDownloadButton onOpen={onClose} />
       </div>
     </div>
   )

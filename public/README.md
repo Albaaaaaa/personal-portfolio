@@ -34,6 +34,16 @@ Semua konten teks (nama, pengalaman, skill, project, publikasi, sertifikasi)
 ada di satu file: `src/data/portfolio.ts`. Cari komentar `TODO` untuk nilai
 yang masih placeholder:
 
-- `PROFILE.email` — masih `hello@example.com`
-- `PROFILE.linkedin` — URL dugaan, perlu dikonfirmasi
 - Dua entry terakhir di `PROJECTS` — masih slot placeholder
+
+## Contact form
+
+Form di section Contact mengirim submission ke [Web3Forms](https://web3forms.com),
+yang meneruskannya ke email terdaftar di akun tersebut (`PROFILE.email`).
+
+Access key ada di `WEB3FORMS_ACCESS_KEY` (`src/data/portfolio.ts`). Key ini
+memang **public** — dipakai di client-side dan hanya bisa membuat submission,
+tidak bisa membaca submission lama. Jadi aman ada di repo.
+
+Spam ditahan lewat field honeypot `botcheck` yang tersembunyi dari user.
+Kalau volume spam naik, aktifkan reCAPTCHA/hCaptcha dari dashboard Web3Forms.

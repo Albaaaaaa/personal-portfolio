@@ -1,35 +1,70 @@
-import { useState } from 'react'
-import Section, { Reveal } from '../components/Section'
+import { useRef, useState } from 'react'
+import Section, { Reveal, Stagger, StaggerItem } from '../components/Section'
 import { GlowingCard } from '../components/ui/glowing-card'
-import { LiquidButton } from '../components/ui/liquid-glass-button'
-import { PROFILE } from '../data/portfolio'
+import { LiquidMetalButton } from '../components/ui/liquid-metal-button'
+import { CvDownloadButton } from '../components/ui/cv-download-button'
+import { PROFILE, WEB3FORMS_ACCESS_KEY } from '../data/portfolio'
 import {
-  DownloadIcon,
-  GithubIcon,
-  LinkedinIcon,
   MailIcon,
   PinIcon,
 } from '../components/icons'
 
+type Status = 'idle' | 'sending' | 'success' | 'error'
+
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [status, setStatus] = useState<Status>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+  const formRef = useRef<HTMLFormElement>(null)
 
   /**
-   * No backend is wired up, so submitting opens the visitor's mail client
-   * with the message prefilled. Swap this for a real endpoint (Formspree,
-   * Resend, a serverless function) when one is available.
+   * Submissions go to Web3Forms, which forwards them to the email registered
+   * on the account. The access key is public by design — it only permits
+   * creating submissions, never reading them.
    */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const subject = encodeURIComponent(`Portfolio contact — ${form.name}`)
-    const body = encodeURIComponent(
-      `Nama: ${form.name}\nEmail: ${form.email}\n\n${form.message}`,
-    )
-    window.location.href = `mailto:${PROFILE.email}?subject=${subject}&body=${body}`
+    if (status === 'sending') return
+
+    setStatus('sending')
+    setErrorMessage('')
+
+    const payload = new FormData(event.currentTarget)
+    payload.set('access_key', WEB3FORMS_ACCESS_KEY)
+    payload.set('subject', `Pesan baru dari portfolio — ${form.name}`)
+    payload.set('from_name', 'Portfolio Website')
+    // Supaya tombol Reply di inbox langsung tertuju ke pengirim pesan.
+    payload.set('replyto', form.email)
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: payload,
+      })
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setStatus('success')
+        setForm({ name: '', email: '', message: '' })
+        formRef.current?.reset()
+      } else {
+        setStatus('error')
+        setErrorMessage(
+          typeof data?.message === 'string'
+            ? data.message
+            : 'Pesan gagal terkirim. Coba lagi atau email langsung.',
+        )
+      }
+    } catch {
+      setStatus('error')
+      setErrorMessage(
+        'Tidak bisa menghubungi server. Periksa koneksi Anda, atau email langsung.',
+      )
+    }
   }
 
   const field =
-    'w-full rounded-2xl border border-ink/12 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-accent'
+    'w-full rounded-2xl border border-ink/12 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-accent disabled:opacity-60'
 
   return (
     <Section
@@ -43,7 +78,7 @@ export default function Contact() {
         {/* Contact form */}
         <Reveal className="lg:col-span-3" delay={60}>
           <GlowingCard className="h-full" innerClassName="h-full">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
                   htmlFor="contact-name"
@@ -59,6 +94,7 @@ export default function Contact() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="Nama lengkap Anda"
+                  disabled={status === 'sending'}
                   className={field}
                 />
               </div>
@@ -78,6 +114,7 @@ export default function Contact() {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder="nama@email.com"
+                  disabled={status === 'sending'}
                   className={field}
                 />
               </div>
@@ -99,22 +136,43 @@ export default function Contact() {
                     setForm({ ...form, message: e.target.value })
                   }
                   placeholder="Tulis pesan Anda di sini…"
+                  disabled={status === 'sending'}
                   className={`${field} resize-y`}
                 />
               </div>
 
-              <LiquidButton
-                type="submit"
-                size="lg"
-                className="w-full rounded-full bg-accent/85 px-6 py-3.5 text-sm font-semibold text-white sm:w-auto"
-              >
-                <MailIcon className="h-4 w-4" />
-                Kirim Pesan
-              </LiquidButton>
+              {/* Honeypot: bots fill this, humans never see it. */}
+              <input
+                type="checkbox"
+                name="botcheck"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="hidden"
+              />
 
-              <p className="text-xs text-ink/40">
-                Form ini membuka aplikasi email Anda dengan pesan yang sudah
-                terisi. Belum ada backend yang menerima submission.
+              <div className="flex justify-center sm:justify-start">
+                <LiquidMetalButton
+                  type="submit"
+                  label={status === 'sending' ? 'Mengirim…' : 'Kirim Pesan'}
+                />
+              </div>
+
+              <p
+                role="status"
+                aria-live="polite"
+                className={`text-xs ${
+                  status === 'success'
+                    ? 'text-accent'
+                    : status === 'error'
+                      ? 'text-red-600'
+                      : 'text-ink/40'
+                }`}
+              >
+                {status === 'success'
+                  ? 'Pesan terkirim. Terima kasih — saya akan membalas lewat email.'
+                  : status === 'error'
+                    ? errorMessage
+                    : `Pesan dikirim langsung ke ${PROFILE.email}.`}
               </p>
             </form>
           </GlowingCard>
@@ -122,7 +180,9 @@ export default function Contact() {
 
         {/* Direct details */}
         <Reveal className="lg:col-span-2" delay={140}>
+          <Stagger>
           <div className="flex h-full flex-col gap-4">
+            <StaggerItem>
             <GlowingCard innerClassName="!p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink/50">
                 Email
@@ -134,11 +194,13 @@ export default function Contact() {
                 <MailIcon className="h-4 w-4 shrink-0" />
                 {PROFILE.email}
               </a>
-              <p className="mt-2 text-xs italic text-ink/40">
-                Alamat email asli menyusul.
+              <p className="mt-2 text-xs text-ink/40">
+                Balasan biasanya dalam 1–2 hari kerja.
               </p>
             </GlowingCard>
+            </StaggerItem>
 
+            <StaggerItem>
             <GlowingCard innerClassName="!p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink/50">
                 Lokasi
@@ -148,59 +210,38 @@ export default function Contact() {
                 {PROFILE.location}
               </p>
             </GlowingCard>
+            </StaggerItem>
 
+            <StaggerItem>
             <GlowingCard innerClassName="!p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink/50">
                 Sosial Media
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <LiquidButton
-                  asChild
-                  size="sm"
-                  className="rounded-full px-4 py-2 text-xs font-semibold text-ink/75 hover:text-ink"
-                >
-                  <a
-                    href={PROFILE.github}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    <GithubIcon className="h-4 w-4" />
-                    GitHub
-                  </a>
-                </LiquidButton>
-                <LiquidButton
-                  asChild
-                  size="sm"
-                  className="rounded-full px-4 py-2 text-xs font-semibold text-ink/75 hover:text-ink"
-                >
-                  <a
-                    href={PROFILE.linkedin}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    <LinkedinIcon className="h-4 w-4" />
-                    LinkedIn
-                  </a>
-                </LiquidButton>
+              <div className="mt-3 flex flex-wrap gap-3">
+                <LiquidMetalButton
+                  label="GitHub"
+                  onClick={() => window.open(PROFILE.github, '_blank')}
+                />
+                <LiquidMetalButton
+                  label="LinkedIn"
+                  onClick={() => window.open(PROFILE.linkedin, '_blank')}
+                />
               </div>
             </GlowingCard>
+            </StaggerItem>
 
+            <StaggerItem>
             <GlowingCard innerClassName="flex flex-1 flex-col justify-center !p-6">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink/50">
                 Resume / CV
               </p>
-              <LiquidButton
-                asChild
-                size="lg"
-                className="mt-3 w-full rounded-full bg-ink/90 px-5 py-3 text-sm font-semibold text-white"
-              >
-                <a href={PROFILE.cvUrl} download>
-                  <DownloadIcon className="h-4 w-4" />
-                  Download CV (PDF)
-                </a>
-              </LiquidButton>
+              <div className="mt-3 flex flex-wrap justify-center gap-3">
+                <CvDownloadButton />
+              </div>
             </GlowingCard>
+            </StaggerItem>
           </div>
+          </Stagger>
         </Reveal>
       </div>
     </Section>

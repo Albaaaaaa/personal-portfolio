@@ -19,7 +19,7 @@
 
 /* Inter is the global default on every element. */
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 html {
@@ -30,8 +30,8 @@ html {
 
 body {
   margin: 0;
-  background-color: #ffffff;
-  color: #1d1d1f;
+  background-color: #000;
+  color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -44,6 +44,11 @@ body.menu-open {
 /* Hero wrapper opt-in font. */
 .font-helvetica-neue {
   font-family: 'Helvetica Neue Roman', 'Helvetica Neue', 'Inter', sans-serif;
+}
+
+/* Hero title — Readex Pro, tight tracking, compact leading. */
+.font-readex-pro {
+  font-family: 'Readex Pro', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* Display face for the hero name and section headings. */
@@ -137,6 +142,61 @@ body.menu-open {
     mask-composite: exclude;
     pointer-events: none;
   }
+}
+
+/* -------------------------------------------------------------------------
+   Editorial chapter details
+   ------------------------------------------------------------------------- */
+.section-drafting-grid {
+  opacity: 0.38;
+  background-image:
+    linear-gradient(rgba(29, 29, 31, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 29, 31, 0.07) 1px, transparent 1px),
+    radial-gradient(circle, rgba(0, 113, 227, 0.18) 1px, transparent 1.5px);
+  background-position:
+    0 0,
+    0 0,
+    20px 20px;
+  background-size:
+    40px 40px,
+    40px 40px,
+    40px 40px;
+  -webkit-mask-image: linear-gradient(110deg, transparent 8%, black 52%, transparent 94%);
+  mask-image: linear-gradient(110deg, transparent 8%, black 52%, transparent 94%);
+}
+
+.section-crosshair::before,
+.section-crosshair::after {
+  content: '';
+  position: absolute;
+  background: rgba(29, 29, 31, 0.2);
+}
+
+.section-crosshair::before {
+  left: 50%;
+  top: 0;
+  height: 100%;
+  width: 1px;
+}
+
+.section-crosshair::after {
+  left: 0;
+  top: 50%;
+  height: 1px;
+  width: 100%;
+}
+
+.editorial-rule {
+  position: relative;
+}
+
+.editorial-rule::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #0071e3, rgba(0, 113, 227, 0.08));
 }
 
 /* -------------------------------------------------------------------------

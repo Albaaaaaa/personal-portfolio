@@ -1,130 +1,125 @@
-import Section, { Reveal } from '../components/Section'
+import Section, { Reveal, Stagger, StaggerItem } from '../components/Section'
 import { GlowingCard } from '../components/ui/glowing-card'
-import { EDUCATION, EXPERIENCE } from '../data/portfolio'
+import { CardStack } from '../components/ui/card-stack'
+import { EXPERIENCE, GalleryItem } from '../data/portfolio'
 import { PinIcon, YoutubeIcon } from '../components/icons'
+
+type VideoItem = { label: string; url: string }
+type ExperienceJob = {
+  role: string
+  company: string
+  period: string
+  location: string
+  points: readonly string[]
+  gallery?: GalleryItem[]
+  videos?: VideoItem[]
+}
 
 export default function Experience() {
   return (
     <Section
       id="experience"
-      eyebrow="Experience & Education"
-      title="Pengalaman dan pendidikan."
-      subtitle="Praktik langsung di instansi pemerintah, dilandasi pendidikan formal Informatics Engineering."
+      eyebrow="Experience"
+      title="Pengalaman kerja."
+      subtitle="Pengalaman profesional di pengembangan sistem informasi."
+      chapter="03"
+      tone="mist"
     >
-      <div className="grid gap-10 lg:grid-cols-2 lg:gap-8">
-        {/* Work experience */}
-        <div>
-          <Reveal delay={60}>
-            <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.14em] text-ink/45">
-              Pengalaman Kerja
-            </h3>
-          </Reveal>
-
-          <div className="space-y-5">
-            {EXPERIENCE.map((job, index) => (
-              <Reveal key={job.company} delay={100 + index * 80}>
-                <GlowingCard>
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <h4 className="text-lg font-semibold text-ink">
-                        {job.role}
-                      </h4>
-                      <p className="mt-1 text-sm text-accent">{job.company}</p>
-                    </div>
-                    <span className="rounded-full bg-ink/5 px-3 py-1 text-xs font-medium text-ink/60">
-                      {job.period}
-                    </span>
-                  </div>
-
-                  <p className="mt-3 flex items-center gap-1.5 text-xs text-ink/50">
-                    <PinIcon className="h-3.5 w-3.5" />
-                    {job.location}
-                  </p>
-
-                  <ul className="mt-5 space-y-3">
-                    {job.points.map((point) => (
-                      <li key={point} className="flex gap-3">
-                        <span
-                          className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                          aria-hidden="true"
-                        />
-                        <p className="text-sm leading-relaxed text-ink/70">
-                          {point}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {job.videos && job.videos.length > 0 && (
-                    <div className="mt-6 border-t border-ink/8 pt-5">
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
-                        Hasil Konten Video
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {job.videos.map((video) => (
-                          <a
-                            key={video.url}
-                            href="#konten-publikasi"
-                            className="flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2 text-xs font-semibold text-ink/75 transition-colors hover:border-red-500/40 hover:text-red-600"
-                          >
-                            <YoutubeIcon className="h-4 w-4 text-red-600" />
-                            {video.label}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </GlowingCard>
-              </Reveal>
-            ))}
-          </div>
+      <Reveal delay={60}>
+        <div className="mb-5 flex items-center gap-4">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink/55">
+            Pengalaman Kerja
+          </h3>
+          <span className="h-px flex-1 bg-ink/10" />
+          <span className="font-mono text-[10px] text-ink/35">
+            {String(EXPERIENCE.length).padStart(2, '0')} entries
+          </span>
         </div>
+      </Reveal>
 
-        {/* Education */}
-        <div>
-          <Reveal delay={60}>
-            <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.14em] text-ink/45">
-              Pendidikan
-            </h3>
-          </Reveal>
-
-          <div className="space-y-5">
-            {EDUCATION.map((school, index) => (
-              <Reveal key={school.school} delay={100 + index * 80}>
-                <GlowingCard>
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <h4 className="text-lg font-semibold text-ink">
-                        {school.school}
-                      </h4>
-                      <p className="mt-1 text-sm text-accent">
-                        {school.program}
-                      </p>
-                    </div>
-                    <span className="rounded-full bg-ink/5 px-3 py-1 text-xs font-medium text-ink/60">
-                      {school.period}
-                    </span>
+      <Stagger>
+        <div className="relative mx-auto max-w-3xl pl-8 before:absolute before:bottom-8 before:left-[5px] before:top-8 before:w-px before:bg-gradient-to-b before:from-accent/55 before:via-ink/15 before:to-transparent">
+          {(EXPERIENCE as unknown as ExperienceJob[]).map((job, index) => (
+            <StaggerItem key={job.company} className="relative mb-8 last:mb-0">
+              <span
+                aria-hidden="true"
+                className="absolute -left-8 top-8 z-20 flex h-3 w-3 items-center justify-center rounded-full border border-accent/40 bg-white shadow-[0_0_0_5px_rgba(0,113,227,0.06)]"
+              >
+                <span className="h-1 w-1 rounded-full bg-accent" />
+              </span>
+              <GlowingCard innerClassName="overflow-hidden">
+                <div className="mb-5 flex items-center justify-between border-b border-ink/8 pb-3">
+                  <span className="font-mono text-[9px] font-semibold tracking-[0.18em] text-accent/65">
+                    EXP-{String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-ink/30">
+                    Work record
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h4 className="text-lg font-semibold text-ink">{job.role}</h4>
+                    <p className="mt-1 text-sm text-accent">{job.company}</p>
                   </div>
+                  <span className="rounded-full bg-ink/5 px-3 py-1 text-xs font-medium text-ink/60">
+                    {job.period}
+                  </span>
+                </div>
 
-                  <ul className="mt-5 space-y-3">
-                    {school.points.map((point) => (
-                      <li key={point} className="flex gap-3">
-                        <span
-                          className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                          aria-hidden="true"
-                        />
-                        <p className="text-sm leading-relaxed text-ink/70">
-                          {point}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                </GlowingCard>
-              </Reveal>
-            ))}
-          </div>
+                <p className="mt-3 flex items-start gap-1.5 text-xs leading-relaxed text-ink/50">
+                  <PinIcon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  {job.location}
+                </p>
+
+                <ul className="mt-5 space-y-3">
+                  {job.points.map((point) => (
+                    <li key={point} className="flex gap-3">
+                      <span
+                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                        aria-hidden="true"
+                      />
+                      <p className="text-sm leading-relaxed text-ink/70">
+                        {point}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+
+                {job.videos && job.videos.length > 0 && (
+                  <div className="mt-6 rounded-lg border border-ink/8 bg-ink/[0.02] px-4 py-3">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
+                      Konten video publikasi
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {job.videos.map((video) => (
+                        <a
+                          key={video.url}
+                          href={video.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-medium text-accent transition-colors hover:bg-accent/10"
+                        >
+                          <YoutubeIcon className="h-3 w-3" />
+                          {video.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {job.gallery && job.gallery.length > 0 && (
+                  <div className="mt-6 border-t border-ink/8 pt-6">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
+                      Galeri
+                    </p>
+                    <CardStack items={[...job.gallery]} />
+                  </div>
+                )}
+              </GlowingCard>
+            </StaggerItem>
+          ))}
         </div>
-      </div>
+      </Stagger>
     </Section>
   )
 }

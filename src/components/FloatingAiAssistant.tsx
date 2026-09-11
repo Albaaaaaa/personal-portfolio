@@ -84,7 +84,9 @@ export const FloatingAiAssistant: React.FC = () => {
                 const newMessages = [...prev]
                 const lastMessage = newMessages[newMessages.length - 1]
                 if (lastMessage && lastMessage.role === 'assistant') {
-                  lastMessage.content = assistantMessage
+                  // The model may still emit Markdown despite the system prompt;
+                  // the UI renders plain text only, so strip the markers.
+                  lastMessage.content = assistantMessage.replace(/[*`]/g, '')
                 }
                 return newMessages
               })

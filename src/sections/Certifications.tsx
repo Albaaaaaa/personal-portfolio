@@ -1,4 +1,4 @@
-import Section, { Reveal } from '../components/Section'
+import Section, { Reveal, Stagger, StaggerItem } from '../components/Section'
 import { ImageCard } from '../components/ui/image-card'
 import { GlowingCard } from '../components/ui/glowing-card'
 import { ExternalLink } from 'lucide-react'
@@ -26,46 +26,50 @@ export default function Certifications() {
       title="Kredensial dan sertifikasi."
       subtitle="Sertifikasi profesional di bidang IT support, data science, statistika, dan bahasa."
     >
-      <ParallaxCards className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {CERTIFICATIONS.map((cert) => (
-          <ParallaxCard key={cert.title}>
-            <GlowingCard className="h-full" innerClassName="p-0">
-              <ImageCard
-                className="h-full min-h-[340px]"
-                imageUrl={cert.image ?? FALLBACK_IMAGE}
-                imageAlt={cert.title}
-                objectFit="contain"
-                imageHref={cert.credentialUrl}
-                plain
-                logo={
-                  <span className="flex items-center gap-1 text-xs font-bold text-white">
-                    {badgeFor(cert.issuer)}
-                    {cert.credentialUrl && <ExternalLink size={12} />}
-                  </span>
-                }
-                title={cert.title}
-                subtitle={cert.issuer}
-                footer={
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
-                      Terbit {cert.issued}
-                    </span>
-                    {cert.expires ? (
-                      <span className="rounded-full bg-green-400/20 px-3 py-1 text-[11px] font-medium text-green-200 backdrop-blur-sm">
-                        Berlaku s.d. {cert.expires}
+      <Stagger>
+        <ParallaxCards className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {CERTIFICATIONS.map((cert) => (
+            <StaggerItem key={cert.title}>
+              <ParallaxCard>
+                <GlowingCard className="h-full" innerClassName="p-0">
+                  <ImageCard
+                    className="h-full min-h-[340px]"
+                    imageUrl={cert.image ?? FALLBACK_IMAGE}
+                    imageAlt={cert.title}
+                    objectFit="contain"
+                    imageHref={cert.credentialUrl ?? cert.image}
+                    plain
+                    logo={
+                      <span className="flex items-center gap-1 text-xs font-bold text-white">
+                        {badgeFor(cert.issuer)}
+                        {cert.credentialUrl && <ExternalLink size={12} />}
                       </span>
-                    ) : (
-                      <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-white/80 backdrop-blur-sm">
-                        Tanpa kedaluwarsa
-                      </span>
-                    )}
-                  </div>
-                }
-              />
-            </GlowingCard>
-          </ParallaxCard>
-        ))}
-      </ParallaxCards>
+                    }
+                    title={cert.title}
+                    subtitle={cert.issuer}
+                    footer={
+                      <div className="flex flex-wrap gap-2">
+                        <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
+                          Terbit {cert.issued}
+                        </span>
+                        {cert.expires ? (
+                          <span className="rounded-full bg-green-400/20 px-3 py-1 text-[11px] font-medium text-green-200 backdrop-blur-sm">
+                            Berlaku s.d. {cert.expires}
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-white/80 backdrop-blur-sm">
+                            Tanpa kedaluwarsa
+                          </span>
+                        )}
+                      </div>
+                    }
+                  />
+                </GlowingCard>
+              </ParallaxCard>
+            </StaggerItem>
+          ))}
+        </ParallaxCards>
+      </Stagger>
 
       <Reveal delay={140}>
         <p className="mt-6 text-xs italic text-ink/40">

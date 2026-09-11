@@ -3,7 +3,9 @@ import Navigation from './components/Navigation'
 import MobileMenu from './components/MobileMenu'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
+import ScrollProgress from './components/ScrollProgress'
 import About from './sections/About'
+import Education from './sections/Education'
 import Experience from './sections/Experience'
 import Skills from './sections/Skills'
 import Portfolio from './sections/Portfolio'
@@ -64,7 +66,8 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative bg-white">
+    <div className="relative bg-black">
+      <ScrollProgress />
       <Navigation
         menuOpen={menuOpen}
         activeSection={activeSection}
@@ -75,6 +78,7 @@ export default function App() {
       <main>
         <Hero />
         <About />
+        <Education />
         <Experience />
         <Skills />
         <Portfolio />
