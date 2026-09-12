@@ -2,7 +2,7 @@ import Section, { Reveal, Stagger, StaggerItem } from '../components/Section'
 import { GlowingCard } from '../components/ui/glowing-card'
 import { CardStack } from '../components/ui/card-stack'
 import { EXPERIENCE, GalleryItem } from '../data/portfolio'
-import { PinIcon, YoutubeIcon } from '../components/icons'
+import { InstagramIcon, PinIcon, YoutubeIcon } from '../components/icons'
 
 type VideoItem = { label: string; url: string }
 type ExperienceJob = {
@@ -99,7 +99,11 @@ export default function Experience() {
                           rel="noreferrer"
                           className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-medium text-accent transition-colors hover:bg-accent/10"
                         >
-                          <YoutubeIcon className="h-3 w-3" />
+                          {video.url.includes('instagram.com') ? (
+                            <InstagramIcon className="h-3 w-3" />
+                          ) : (
+                            <YoutubeIcon className="h-3 w-3" />
+                          )}
                           {video.label}
                         </a>
                       ))}

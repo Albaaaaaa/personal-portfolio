@@ -85,7 +85,12 @@ export const EXPERIENCE = [
         description: 'Pengolahan dan visualisasi data statistik',
       },
     ] as GalleryItem[],
-    videos: [] as { label: string; url: string }[],
+    videos: [
+      {
+        label: 'Konten Publikasi Instagram BPS',
+        url: 'https://www.instagram.com/reel/DcLgO_xNqsz/',
+      },
+    ] as { label: string; url: string }[],
     points: [
       'Memberikan IT support serta membantu troubleshooting perangkat keras, perangkat lunak, dan permasalahan teknis pengguna.',
       'Membantu pengelolaan sistem informasi, basis data, dan infrastruktur TI untuk mendukung kegiatan operasional.',
