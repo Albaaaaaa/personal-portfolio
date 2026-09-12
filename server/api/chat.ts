@@ -6,7 +6,7 @@
  * Returns: SSE stream from Groq
  */
 
-import '../load-env.js'
+import '../load-env'
 
 const SYSTEM_PROMPT = `You are an AI assistant embedded in Muhammad Ulil Albab's portfolio website. Your job is to help visitors learn about Muhammad Ulil Albab — a Software Engineer & AI Engineer based in Samarinda, Indonesia.
 

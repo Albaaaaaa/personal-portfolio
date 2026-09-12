@@ -1,5 +1,5 @@
 import type { ViteDevServer } from 'vite'
-import { handleChatRequest } from './api/chat.js'
+import { handleChatRequest } from './api/chat'
 
 /**
  * Vite plugin that mounts /api/chat as a dev server endpoint.
