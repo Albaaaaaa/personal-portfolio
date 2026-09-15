@@ -38,10 +38,10 @@ export const SECTIONS = [
 ] as const
 
 export const ABOUT_POINTS = [
-  'Fresh graduate Informatics Engineering, lulus dengan predikat Cum Laude sebagai Lulusan Terbaik Fakultas Sains dan Teknologi (GPA 3.95/4.00).',
-  'Fokus studi pada Software Engineering dan Artificial Intelligence.',
-  'Pengalaman hands-on membangun sistem berbasis web, manajemen database relasional, dan riset machine learning.',
-  'Aktif dalam proyek teknologi akademik, menggabungkan technical skill dengan kolaborasi tim.',
+  'Lulus Cum Laude sebagai Lulusan Terbaik Fakultas Sains dan Teknologi UMKT dengan GPA 3.95/4.00.',
+  'Penelitian Machine Learning diterbitkan di jurnal IJAIDM: model hybrid SVR–Genetic Algorithm untuk prediksi harga saham.',
+  'Membangun sistem informasi berbasis web untuk instansi pemerintah, mulai dari manajemen arsip digital hingga pengolahan dan visualisasi data statistik.',
+  'Tersertifikasi BNSP Associate Data Scientist, IBM IT Support, dan Data Science with Microsoft Fabric — bukti komitmen belajar berkelanjutan.',
 ] as const
 
 export const ABOUT_STATS = [
