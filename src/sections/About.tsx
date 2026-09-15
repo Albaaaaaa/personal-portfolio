@@ -7,8 +7,8 @@ export default function About() {
     <Section
       id="about"
       eyebrow="Tentang Saya"
-      title="Membangun sistem, meneliti data."
-      subtitle="Fresh graduate Informatics Engineering yang fokus di Software Engineering dan Artificial Intelligence."
+      title="Membangun sistem, meneliti data & kecerdasan."
+      subtitle="Lulusan Teknik Informatika dari Universitas Muhammadiyah Kalimantan Timur dengan pengalaman dalam pengembangan perangkat lunak, pengelolaan data, dan penerapan Machine Learning. Memiliki minat dan aspirasi yang tinggi di bidang Artificial Intelligence dan Data Science. Memiliki pengalaman dalam analisis data, pengembangan model, serta pembangunan sistem berbasis web. Adaptif, cepat belajar, memiliki kemampuan problem solving yang baik, dan tertarik untuk terus mengeksplorasi perkembangan teknologi."
       chapter="01"
       tone="mist"
     >
