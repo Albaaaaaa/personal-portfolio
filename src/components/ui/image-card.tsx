@@ -4,6 +4,8 @@ import { cn } from "../../lib/utils"
 interface ImageCardProps extends React.HTMLAttributes<HTMLDivElement> {
   imageUrl: string
   imageAlt: string
+  imageWidth?: number
+  imageHeight?: number
   logo?: React.ReactNode
   title: string
   subtitle?: string
@@ -26,6 +28,8 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
       className,
       imageUrl,
       imageAlt,
+      imageWidth,
+      imageHeight,
       logo,
       title,
       subtitle,
@@ -44,6 +48,10 @@ const ImageCard = React.forwardRef<HTMLDivElement, ImageCardProps>(
       <img
         src={imageUrl}
         alt={imageAlt}
+        width={imageWidth}
+        height={imageHeight}
+        loading="lazy"
+        decoding="async"
         className={cn(
           "absolute inset-0 h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]",
           objectFit === 'cover' ? 'object-cover' : 'object-contain p-4'

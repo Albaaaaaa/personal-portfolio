@@ -277,6 +277,9 @@ export type Project = {
   placeholder?: boolean
   /** Ganti dengan path gambar sendiri, mis. '/images/projects/nama.jpg' */
   image?: string
+  imageWidth?: number
+  imageHeight?: number
+  imageFit?: 'cover' | 'contain'
 }
 
 export const PROJECTS: Project[] = [
@@ -287,8 +290,10 @@ export const PROJECTS: Project[] = [
     stack: ['PHP', 'CodeIgniter 4', 'MySQL'],
     demo: 'https://silayar-perpus.gt.tc/',
     repo: 'https://github.com/Albaaaaaa/Digital-Archive-Management-System-with-CodeIgniter-4',
-    image:
-      'https://images.unsplash.com/photo-1568667256549-094345857637?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/projects/digital-archive-case-study.webp',
+    imageWidth: 1536,
+    imageHeight: 1024,
+    imageFit: 'contain',
   },
   {
     title: 'System for Diabetes Detection',
@@ -297,8 +302,10 @@ export const PROJECTS: Project[] = [
     stack: ['Python', 'Machine Learning'],
     demo: 'https://alba-portofolio.site.je/',
     repo: 'https://github.com/Albaaaaaa/System-for-Diabetes-Detection',
-    image:
-      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/projects/diabetes-detection-case-study.webp',
+    imageWidth: 1536,
+    imageHeight: 1024,
+    imageFit: 'contain',
   },
   {
     title: 'Islamic Companion App for Worship and Learning',
@@ -307,8 +314,10 @@ export const PROJECTS: Project[] = [
     stack: ['Web App', 'JavaScript'],
     demo: 'https://dakwah.albajourney.my.id/',
     repo: 'https://github.com/Albaaaaaa/Islamic-Companion-App-for-Worship-and-Learning',
-    image:
-      'https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1200&auto=format&fit=crop',
+    image: '/images/projects/islamic-companion-case-study.webp',
+    imageWidth: 1536,
+    imageHeight: 1024,
+    imageFit: 'contain',
   },
   {
     title: 'Job Application System',
@@ -339,16 +348,25 @@ export const PROJECTS: Project[] = [
       'https://images.unsplash.com/photo-1526378800651-c32d170fe6f8?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    title: 'Project berikutnya',
-    description: 'Slot ini menunggu detail project tambahan.',
-    stack: [],
-    placeholder: true,
+    title: 'Vintano & Andini — Digital Wedding Invitation',
+    description:
+      'Undangan pernikahan digital responsif dengan opening interaktif, countdown acara, galeri, detail lokasi, RSVP, ucapan tamu, hadiah digital, dan musik latar.',
+    stack: ['Vite', 'JavaScript', 'Responsive UI'],
+    demo: 'https://wedding-invitation.my.id/',
+    image: '/images/projects/wedding-invitation-case-study.webp',
+    imageWidth: 1536,
+    imageHeight: 1024,
   },
   {
-    title: 'Project berikutnya',
-    description: 'Slot ini menunggu detail project tambahan.',
-    stack: [],
-    placeholder: true,
+    title: 'Audora — Privacy-First Android Music Player',
+    description:
+      'Pemutar musik Android dengan pengalaman listening personal, lyrics moments, Smart Mix, kontrol transisi, pencarian berbasis mood, dan data yang tetap tersimpan di perangkat.',
+    stack: ['Kotlin', 'Jetpack Compose', 'Media3'],
+    repo: 'https://github.com/Albaaaaaa/Audora',
+    image: '/images/projects/audora-case-study.webp',
+    imageWidth: 1536,
+    imageHeight: 1024,
+    imageFit: 'contain',
   },
 ]
 

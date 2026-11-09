@@ -56,6 +56,9 @@ export default function Portfolio() {
                     className="h-full min-h-[360px]"
                     imageUrl={project.image}
                     imageAlt={project.title}
+                    imageWidth={project.imageWidth}
+                    imageHeight={project.imageHeight}
+                    objectFit={project.imageFit}
                     imageHref={project.demo ?? project.repo}
                     title={project.title}
                     subtitle={project.stack.join(' · ')}
